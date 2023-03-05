@@ -4,22 +4,28 @@ int juicer[301][301]={0};
 int w;
 int h;
 int juice=0;
+int temp_row[301];
+int temp_col[301];
+int temp_max[2];
 
-int Min(int x,int y,int m,int n)
+void get_max(int x,int y)
 {
-return  min(min(x,y),min(m,n));
+  for(int i=0;i<w;i++)  temp_row[i]=juicer[x][i];
+  for(int i=0;i<h;i++)  temp_col[i]=juicer[i][y];
+  sort(temp_row,temp_row+w);
+  sort(temp_col,temp_col+h);
+  temp_max[0]=temp_row[w-1];
+  temp_max[1]=temp_col[h-1];
 }
 
 void juice_cac()
 {
-  for(int i=1;i<w+1;i++)
+  for(int i=1;i<h-1;i++)
   {
-    for(int j=1;j<h+1;j++)
+    for(int j=1;j<w-1;j++)
     {
-      int low=Min(juicer[i][j-1],juicer[i][j+1]
-      ,juicer[i-1][j],juicer[i+1][j]);
-      if(low<=juicer[i][j]) {}
-      else juice=juice+low-juicer[i][j];
+    get_max(i,j);
+    juice=min((temp_max[0]-juicer[i][j]),(temp_max[1]-juicer[i][j]))+juice;
   }
 }
 }
@@ -30,7 +36,7 @@ int main()
     for(int i=0; i<h; i++)
     {
         for(int j=0; j<w;j++)
-         cin>>juicer[i+1][j+1];
+         cin>>juicer[i][j];
     }
     juice_cac();
     cout<<juice;
