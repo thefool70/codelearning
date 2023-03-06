@@ -7,7 +7,6 @@ typedef struct Node{
  int key;
 } node;
 node* head = NULL;
-string order;
 
 void insert(int data){
 node*p=head;
@@ -31,21 +30,43 @@ void print(node*p)
 { if(p==NULL) return;
   //  cout<<p->key; //前序遍历
   print(p->left);
-  cout<<p->key; //中值遍历 按从大到小顺序遍历
+  cout<<" "<<p->key; //中值遍历 按从大到小顺序遍历
   print(p->right);
   // cout<<p->key; //后序遍历
+}
+
+void find(node*p,int x)
+{
+   if(p->key == x) {cout<<"yes"<<endl; return ;}
+   else if(p->left!=NULL&&p->key < x) find(p->left,x);
+   else if(p->right!=NULL&&p->key>x) find(p->right,x);
+   else {cout<<"no"<<endl; return ;}
 }
 
 int main()
 { 
     int n;
+    string com;
     cin>>n;
-    int data;
     for(int i=0; i<n; i++)
     {
-        cin>>data;
-        insert(data);
-    }
-    print(head);
+        cin>>com;
+        if(com=="ins")
+        {
+            int data;
+            cin>>data;
+            insert(data);
+        }
+        else if(com=="pri")
+        {  print(head);
+            cout<<endl;
+        }
+        else
+        {
+            int data;
+            cin>>data;
+            find(head,data);
+        }
+    }  
     return 0;
 }
