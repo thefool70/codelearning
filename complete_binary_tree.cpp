@@ -1,13 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 int _size;
+int p[100]={0};
 
-int* tree_make()
+void tree_make()
 {
   cin>>_size;
-  int*p=(int*)(malloc(sizeof(int)*(_size)+1));
   for(int i=1;i<=_size;i++) cin>>p[i];
-  return p;
 }
 
 void tree_print(int *a)
@@ -15,7 +14,7 @@ void tree_print(int *a)
 for(int i=1;i<=_size;i++)
 {
     cout<<"Node"<<i<<":"<<a[i]<<" ";
-    if(i/2!=0) cout<<"parent:"<<i/2;
+    if(i/2!=0) cout<<"parent:"<<a[i/2];
     if(2*i<=_size) cout<<"left:"<<a[2*i];
     if(2*i<=_size-1)  cout<<"right:"<<a[2*i+1];
     cout<<endl;
@@ -43,8 +42,7 @@ void tree_sort(int*a,int n)
     int largest=n;
     if(l<=_size&&a[n]<a[l])  largest=l;
     else largest=n;
-    if(r<=_size&&a[l]<a[r]) largest=r;
-    else largest=l;
+    if(r<=_size&&a[largest]<a[r]) largest=r;
     if(largest!=n)
     {
         swap(a[n],a[largest]);
@@ -53,11 +51,28 @@ void tree_sort(int*a,int n)
 }
 
 
+void insert(int x)
+{
+   _size++;
+   p[_size]=x;
+   for(int i=_size/2;i>=1;i--) tree_sort(p,i);
+}
+
+void dele(int*a)
+{ 
+  cout<<a[1]<<endl;
+  a[1]=a[_size+1];
+  _size--;
+  for(int i=_size/2;i>=1;i--) tree_sort(p,i);
+}
+
 int main()
 {
-  int*a=tree_make();
-  tree_print(a);
-  cout<<endl;
-  for(int i=_size/2;i>1;i--) tree_sort(a,i);
-  tree_print(a);
+  tree_make();
+  for(int i=_size/2;i>=1;i--) tree_sort(p,i);
+  tree_print(p); cout<<endl;
+  dele(p);
+ // tree_print(p); cout<<endl;
+ // insert(100);
+  tree_print(p);
 }
